@@ -18,6 +18,7 @@ async function logout() {
   <div class="page">
     <div class="page__header fade-in">
       <div class="page__brand">
+        <img src="/drop.svg" width="14" height="14" alt="" class="page__brand-icon" />
         <span class="page__brand-name">aulala</span>
         <span class="page__brand-desc">suivi de cycle</span>
       </div>
@@ -64,6 +65,7 @@ async function logout() {
               </svg>
             </button>
 
+            <img src="/drop.svg" width="22" height="22" alt="" class="about__icon" />
             <h2 class="about__title">aulala</h2>
             <p class="about__subtitle">suivi de cycle</p>
 
@@ -99,8 +101,12 @@ async function logout() {
 
 .page__brand {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   gap: var(--space-2);
+}
+
+.page__brand-icon {
+  flex-shrink: 0;
 }
 
 .page__brand-name {
@@ -205,6 +211,12 @@ async function logout() {
 
 .about__close:active {
   color: var(--color-text-primary);
+}
+
+.about__icon {
+  display: block;
+  margin: 0 auto var(--space-3);
+  color: var(--color-accent);
 }
 
 .about__title {

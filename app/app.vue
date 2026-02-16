@@ -8,7 +8,10 @@
     </div>
 
     <div class="desktop-block__center">
-      <h1 class="desktop-block__title">aulala</h1>
+      <div class="desktop-block__brand">
+        <h1 class="desktop-block__title">aulala</h1>
+        <img src="/drop.svg" width="32" height="32" alt="" class="desktop-block__icon" />
+      </div>
       <p class="desktop-block__sub">suivi de cycle</p>
       <p class="desktop-block__about">
         Suis ton cycle menstruel, enregistre tes dates<br>et obtiens des estimations personnalisees.

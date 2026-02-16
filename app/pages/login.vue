@@ -44,7 +44,10 @@ async function handleSubmit() {
     </div>
 
     <div class="login__card">
-      <h1 class="login__brand">aulala</h1>
+      <div class="login__brand-row">
+        <h1 class="login__brand">aulala</h1>
+        <img src="/drop.svg" width="24" height="24" alt="" class="login__icon" />
+      </div>
       <p class="login__subtitle">suivi de cycle</p>
 
       <p class="login__about">
@@ -202,6 +205,17 @@ async function handleSubmit() {
   max-width: 340px;
   text-align: center;
   animation: fadeInUp 0.8s var(--ease-out) 0.15s both;
+}
+
+.login__brand-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.login__icon {
+  flex-shrink: 0;
 }
 
 .login__brand {
