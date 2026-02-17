@@ -1,6 +1,6 @@
 # Aukarmin
 
-Menstrual cycle tracking app. Built for personal use, designed to scale.
+Menstrual cycle tracking app.
 
 ## Stack
 
@@ -8,6 +8,7 @@ Menstrual cycle tracking app. Built for personal use, designed to scale.
 - **Turso** — Distributed SQLite database (libSQL)
 - **Drizzle ORM** — Type-safe SQL queries and schema management
 - **Better Auth** — Authentication with magic link (passwordless email login)
+- **Resend** — Transactional emails for magic link login
 - **PWA** — Installable, works offline via service worker
 
 ## Features
@@ -112,3 +113,7 @@ npx drizzle-kit push # Apply schema changes to database
 ## Production
 
 Set `BETTER_AUTH_URL` to your production URL and `NUXT_RESEND_API_KEY` to your Resend API key. Emails are sent via Resend in production (dev mode prints magic links to the console).
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md).
