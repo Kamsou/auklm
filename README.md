@@ -1,4 +1,4 @@
-# Aulala
+# Aukarmin
 
 Menstrual cycle tracking app. Built for personal use, designed to scale.
 
@@ -35,9 +35,9 @@ npm install
 ### 2. Create the database
 
 ```bash
-turso db create aulala
-turso db show aulala --url       # copy the URL
-turso db tokens create aulala    # copy the token
+turso db create aukarmin
+turso db show aukarmin --url       # copy the URL
+turso db tokens create aukarmin    # copy the token
 ```
 
 ### 3. Configure environment
@@ -49,9 +49,10 @@ cp .env.example .env
 Fill in `.env`:
 
 ```
-NUXT_TURSO_DATABASE_URL=libsql://aulala-xxx.turso.io
+NUXT_TURSO_DATABASE_URL=libsql://aukarmin-xxx.turso.io
 NUXT_TURSO_AUTH_TOKEN=eyJ...
 NUXT_BETTER_AUTH_SECRET=<run: openssl rand -base64 32>
+NUXT_RESEND_API_KEY=re_...
 BETTER_AUTH_URL=http://localhost:3000
 ```
 
@@ -67,7 +68,7 @@ npx drizzle-kit push
 npm run dev
 ```
 
-The app redirects to `/login`. Enter an email — the magic link URL is printed in the server console (no email provider configured yet).
+The app redirects to `/login`. Enter an email — in dev, the magic link URL is printed in the server console. In production, emails are sent via Resend.
 
 ## Project structure
 
@@ -110,4 +111,4 @@ npx drizzle-kit push # Apply schema changes to database
 
 ## Production
 
-Set `BETTER_AUTH_URL` to your production URL. Configure a real email provider in `server/utils/auth.ts` (replace the `console.log` in `sendMagicLink` with Resend, Mailgun, or similar).
+Set `BETTER_AUTH_URL` to your production URL and `NUXT_RESEND_API_KEY` to your Resend API key. Emails are sent via Resend in production (dev mode prints magic links to the console).

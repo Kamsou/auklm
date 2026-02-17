@@ -28,13 +28,13 @@ export function useAuth() {
             }
 
             await resend.emails.send({
-              from: 'Aulala <onboarding@resend.dev>',
+              from: 'Aukarmin <onboarding@resend.dev>',
               replyTo: 'camille.coutens@gmail.com',
               to: email,
-              subject: 'Ton lien de connexion Aulala',
+              subject: 'Ton lien de connexion Aukarmin',
               html: `
                 <div style="font-family: -apple-system, system-ui, sans-serif; max-width: 400px; margin: 0 auto; padding: 40px 20px; text-align: center;">
-                  <h1 style="font-size: 28px; font-weight: 700; color: #1e1a2a; letter-spacing: -0.02em; margin: 0;">aulala</h1>
+                  <h1 style="font-size: 28px; font-weight: 700; color: #1e1a2a; letter-spacing: -0.02em; margin: 0;">aukarmin</h1>
                   <p style="font-size: 12px; color: #9e96ad; letter-spacing: 0.08em; margin: 4px 0 32px;">suivi de cycle</p>
                   <p style="font-size: 14px; color: #4a4458; line-height: 1.6; margin: 0 0 24px;">
                     Clique sur le bouton ci-dessous pour te connecter.

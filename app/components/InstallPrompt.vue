@@ -20,12 +20,12 @@ function isStandalone() {
 
 function dismiss() {
   visible.value = false
-  localStorage.setItem('aulala-install-dismissed', '1')
+  localStorage.setItem('aukarmin-install-dismissed', '1')
 }
 
 onMounted(() => {
   if (isStandalone()) return
-  if (localStorage.getItem('aulala-install-dismissed')) return
+  if (localStorage.getItem('aukarmin-install-dismissed')) return
   if (!isIos.value && !isAndroid.value) return
   visible.value = true
 })
@@ -37,7 +37,7 @@ onMounted(() => {
       <div class="install-prompt__sheet glass">
         <div class="install-prompt__handle" />
 
-        <p class="install-prompt__title">Ajouter Aulala à ton écran d'accueil</p>
+        <p class="install-prompt__title">Ajouter Aukarmin à ton écran d'accueil</p>
 
         <div v-if="isIos" class="install-prompt__steps">
           <div class="install-prompt__step">
