@@ -1,5 +1,11 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (to.path === '/login' || to.path.startsWith('/api/auth')) {
+  if (to.path === '/login' || to.path === '/auth-redirect' || to.path.startsWith('/api/auth')) {
+    return
+  }
+
+  const sessionUser = useState<{ id: string } | null>('auth-user', () => null)
+
+  if (import.meta.client && sessionUser.value) {
     return
   }
 
@@ -10,4 +16,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!session.value?.user) {
     return navigateTo('/login')
   }
+
+  sessionUser.value = session.value.user
 })

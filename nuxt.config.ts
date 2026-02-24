@@ -17,6 +17,7 @@ export default defineNuxtConfig({
       secret: '',
     },
     resendApiKey: '',
+    replyToEmail: '',
   },
 
   app: {
@@ -55,6 +56,8 @@ export default defineNuxtConfig({
       theme_color: '#f5f3f8',
       background_color: '#f5f3f8',
       display: 'standalone',
+      scope: '/',
+      start_url: '/',
       orientation: 'portrait',
       lang: 'fr',
       icons: [

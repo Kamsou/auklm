@@ -2,6 +2,8 @@ import { eq, and } from 'drizzle-orm'
 import { periodDates } from '../../db/schema'
 
 export default defineEventHandler(async (event) => {
+  rateLimit(event, { max: 30, windowMs: 60_000 })
+
   const auth = useAuth()
   const session = await auth.api.getSession({ headers: event.headers })
 

@@ -30,7 +30,7 @@ export function useAuth() {
             try {
               await resend.emails.send({
                 from: 'auklm <noreply@auklm.com>',
-                replyTo: 'camille.coutens@gmail.com',
+                replyTo: String(config.replyToEmail),
                 to: email,
                 subject: 'Ton lien de connexion auklm',
                 html: `

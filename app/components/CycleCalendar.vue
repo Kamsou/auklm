@@ -3,10 +3,7 @@ const { toggleDate, deleteDate, isRecorded, predictions, getToday, periodDates }
 
 const weekdayLetters = ['D', 'L', 'M', 'M', 'J', 'V', 'S']
 const weekdayHeaders = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-const monthNames = [
-  'Janvier', 'Fevrier', 'Mars', 'Avril', 'Mai', 'Juin',
-  'Juillet', 'Aout', 'Septembre', 'Octobre', 'Novembre', 'Decembre',
-]
+const monthNames = MONTHS_FULL.map(capitalize)
 
 // ─── Ribbon ───
 interface RibbonDay {
@@ -190,13 +187,11 @@ async function onSheetDayClick(day: number) {
   const date = sheetDayToDate(day)
   if (date > todayStr) return
 
-  // If clicking an already recorded date, just deselect it
   if (isRecorded(date)) {
     toggleDate(date)
     return
   }
 
-  // If another date is recorded in this month, delete it first (move operation)
   const monthPrefix = `${sheetYear.value}-${String(sheetMonth.value + 1).padStart(2, '0')}-`
   const existingInMonth = periodDates.value.find(d => d.startsWith(monthPrefix))
   if (existingInMonth) {

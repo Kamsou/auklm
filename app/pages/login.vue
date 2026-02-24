@@ -17,7 +17,7 @@ async function handleSubmit() {
 
   const { error: authError } = await authClient.signIn.magicLink({
     email: email.value,
-    callbackURL: '/',
+    callbackURL: '/auth-redirect',
   })
 
   loading.value = false

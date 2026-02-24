@@ -10,10 +10,7 @@ const {
   loading,
 } = useCycle()
 
-const frenchMonths = [
-  'janvier', 'fevrier', 'mars', 'avril', 'mai', 'juin',
-  'juillet', 'aout', 'septembre', 'octobre', 'novembre', 'decembre',
-]
+const frenchMonths = MONTHS_FULL
 
 const nextDateLabel = computed(() => {
   const first = predictions.value[0]

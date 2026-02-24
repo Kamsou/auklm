@@ -68,7 +68,7 @@ async function fetchDates() {
 export function useCycle() {
   if (import.meta.client && !_fetched) {
     _fetched = true
-    fetchDates()
+    fetchDates().catch(() => {})
   }
 
   const sortedDates = computed<DateString[]>(() => {
@@ -103,12 +103,10 @@ export function useCycle() {
   }
 
   async function deleteDate(date: DateString): Promise<void> {
-    // Optimistic remove
     periodDates.value = periodDates.value.filter(d => d !== date)
     try {
       await $fetch(`/api/dates/${date}`, { method: 'DELETE' })
     } catch {
-      // Revert on error
       await fetchDates()
     }
   }

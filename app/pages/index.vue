@@ -10,6 +10,7 @@ function switchTab(tab: 'calendar' | 'history') {
 
 async function logout() {
   await authClient.signOut()
+  useState('auth-user').value = null
   navigateTo('/login')
 }
 </script>

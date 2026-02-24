@@ -1,4 +1,4 @@
-import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
+import { index, sqliteTable, text, integer } from 'drizzle-orm/sqlite-core'
 import { sql } from 'drizzle-orm'
 
 export const user = sqliteTable('user', {
@@ -52,4 +52,6 @@ export const periodDates = sqliteTable('period_dates', {
   userId: text('user_id').notNull().references(() => user.id, { onDelete: 'cascade' }),
   date: text('date').notNull(),
   createdAt: text('created_at').default(sql`(datetime('now'))`),
-})
+}, table => ({
+  userDateIdx: index('idx_period_dates_user_date').on(table.userId, table.date),
+}))

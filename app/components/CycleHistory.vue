@@ -1,10 +1,7 @@
 <script setup lang="ts">
 const { history, predictions, deleteDate } = useCycle()
 
-const frenchMonths = [
-  'jan.', 'fev.', 'mars', 'avr.', 'mai', 'juin',
-  'juil.', 'aout', 'sept.', 'oct.', 'nov.', 'dec.',
-]
+const frenchMonths = MONTHS_SHORT
 
 function formatShortDate(ds: string): string {
   const parts = ds.split('-')
