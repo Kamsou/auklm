@@ -6,13 +6,18 @@ definePageMeta({
 })
 
 const loading = ref('')
+const { show } = useToast()
 
 async function signIn(provider: 'google' | 'apple') {
   loading.value = provider
-  await authClient.signIn.social({
+  const { error } = await authClient.signIn.social({
     provider,
     callbackURL: '/',
   })
+  if (error) {
+    show('Connexion impossible, reessayez plus tard.')
+    loading.value = ''
+  }
 }
 </script>
 

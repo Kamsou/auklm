@@ -29,5 +29,6 @@
   <div class="app-shell">
     <NuxtPage />
     <InstallPrompt />
+    <AppToast />
   </div>
 </template>
