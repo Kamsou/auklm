@@ -57,7 +57,7 @@ export default defineNuxtConfig({
       background_color: '#f5f3f8',
       display: 'standalone',
       scope: '/',
-      start_url: '/',
+      start_url: '/login',
       orientation: 'portrait',
       lang: 'fr',
       icons: [

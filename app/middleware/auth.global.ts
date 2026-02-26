@@ -1,12 +1,12 @@
 export default defineNuxtRouteMiddleware(async (to) => {
-  if (to.path === '/login' || to.path.startsWith('/api/auth')) {
+  if (to.path.startsWith('/api/auth')) {
     return
   }
 
   const sessionUser = useState<{ id: string } | null>('auth-user', () => null)
 
   if (import.meta.client && sessionUser.value) {
-    return
+    return to.path === '/login' ? navigateTo('/') : undefined
   }
 
   const { data: session } = await useFetch<{ user?: { id: string } } | null>('/api/auth/get-session', {
@@ -15,8 +15,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
   if (session.value?.user) {
     sessionUser.value = session.value.user
-    return
+    return to.path === '/login' ? navigateTo('/') : undefined
   }
 
+  if (to.path === '/login') return
   return navigateTo('/login')
 })
