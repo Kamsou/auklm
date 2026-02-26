@@ -9,12 +9,12 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return to.path === '/login' ? navigateTo('/') : undefined
   }
 
-  const { data: session } = await useFetch<{ user?: { id: string } } | null>('/api/auth/get-session', {
-    headers: useRequestHeaders(['cookie']),
+  const session = await $fetch<{ user?: { id: string } } | null>('/api/auth/get-session', {
+    headers: import.meta.server ? useRequestHeaders(['cookie']) : undefined,
   })
 
-  if (session.value?.user) {
-    sessionUser.value = session.value.user
+  if (session?.user) {
+    sessionUser.value = session.user
     return to.path === '/login' ? navigateTo('/') : undefined
   }
 
