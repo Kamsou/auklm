@@ -5,61 +5,45 @@ definePageMeta({
   layout: false,
 })
 
-const loading = ref('')
+const step = ref<1 | 2>(1)
+const email = ref('')
+const otp = ref('')
+const loading = ref(false)
 const { show } = useToast()
-const isStandalone = ref(false)
 
-onMounted(() => {
-  isStandalone.value = window.matchMedia('(display-mode: standalone)').matches
-    || 'standalone' in window.navigator
-
-  checkPendingBridge()
-  document.addEventListener('visibilitychange', onVisibilityChange)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('visibilitychange', onVisibilityChange)
-})
-
-function onVisibilityChange() {
-  if (document.visibilityState === 'visible') {
-    checkPendingBridge()
+async function sendOtp() {
+  if (!email.value) return
+  loading.value = true
+  try {
+    await authClient.emailOtp.sendVerificationOtp({
+      email: email.value,
+      type: 'sign-in',
+    })
+    step.value = 2
+  } catch {
+    show('Impossible d\'envoyer le code, reessayez.')
+  } finally {
+    loading.value = false
   }
 }
 
-async function checkPendingBridge() {
-  const bridgeId = localStorage.getItem('bridge_id')
-  if (!bridgeId) return
-
+async function verifyOtp() {
+  if (!otp.value) return
+  loading.value = true
   try {
-    await $fetch(`/api/bridge/${bridgeId}/claim`, { method: 'POST' })
-    localStorage.removeItem('bridge_id')
+    const { error } = await authClient.signIn.emailOtp({
+      email: email.value,
+      otp: otp.value,
+    })
+    if (error) {
+      show('Code invalide ou expire.')
+      loading.value = false
+      return
+    }
     navigateTo('/')
   } catch {
-    localStorage.removeItem('bridge_id')
-  }
-}
-
-async function signIn(provider: 'google' | 'apple') {
-  loading.value = provider
-
-  if (isStandalone.value) {
-    const { id } = await $fetch('/api/bridge', { method: 'POST' })
-    localStorage.setItem('bridge_id', id)
-    await authClient.signIn.social({
-      provider,
-      callbackURL: `/auth-callback?bridge=${id}`,
-    })
-    return
-  }
-
-  const { error } = await authClient.signIn.social({
-    provider,
-    callbackURL: '/',
-  })
-  if (error) {
-    show('Connexion impossible, reessayez plus tard.')
-    loading.value = ''
+    show('Verification impossible, reessayez.')
+    loading.value = false
   }
 }
 </script>
@@ -87,30 +71,54 @@ async function signIn(provider: 'google' | 'apple') {
         Suis ton cycle menstruel, enregistre tes dates et obtiens des estimations personnalisees.
       </p>
 
-      <div class="login__buttons">
+      <div v-if="step === 1" class="login__form">
+        <input
+          v-model="email"
+          type="email"
+          inputmode="email"
+          autocomplete="email"
+          placeholder="ton@email.com"
+          class="login__input"
+          :disabled="loading"
+          @keydown.enter="sendOtp"
+        />
         <button
-          class="login__button login__button--google"
-          :disabled="!!loading"
-          @click="signIn('google')"
+          class="login__button login__button--primary"
+          :disabled="loading || !email"
+          @click="sendOtp"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4" />
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
-          </svg>
-          {{ loading === 'google' ? 'Connexion...' : 'Continuer avec Google' }}
+          {{ loading ? 'Envoi...' : 'Recevoir un code' }}
         </button>
+      </div>
 
+      <div v-else class="login__form">
+        <p class="login__hint">
+          Un code a ete envoye a <strong>{{ email }}</strong>
+        </p>
+        <input
+          v-model="otp"
+          type="tel"
+          inputmode="numeric"
+          pattern="[0-9]*"
+          maxlength="6"
+          placeholder="000000"
+          class="login__input login__input--otp"
+          :disabled="loading"
+          @keydown.enter="verifyOtp"
+        />
         <button
-          class="login__button login__button--apple"
-          :disabled="!!loading"
-          @click="signIn('apple')"
+          class="login__button login__button--primary"
+          :disabled="loading || !otp"
+          @click="verifyOtp"
         >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" />
-          </svg>
-          {{ loading === 'apple' ? 'Connexion...' : 'Continuer avec Apple' }}
+          {{ loading ? 'Verification...' : 'Verifier' }}
+        </button>
+        <button
+          class="login__link"
+          :disabled="loading"
+          @click="step = 1; otp = ''"
+        >
+          Changer d'email
         </button>
       </div>
     </div>
@@ -263,11 +271,46 @@ async function signIn(provider: 'google' | 'apple') {
   line-height: var(--leading-relaxed);
 }
 
-/* --- Buttons --- */
-.login__buttons {
+/* --- Form --- */
+.login__form {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+
+.login__input {
+  width: 100%;
+  padding: var(--space-4);
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-text-primary);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(120, 90, 170, 0.18);
+  border-radius: var(--radius-md);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  outline: none;
+  transition: border-color var(--duration-fast) var(--ease-out);
+}
+
+.login__input:focus {
+  border-color: rgba(120, 90, 170, 0.4);
+}
+
+.login__input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.login__input--otp {
+  text-align: center;
+  font-size: var(--text-xl);
+  letter-spacing: 0.3em;
+}
+
+.login__hint {
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  line-height: var(--leading-relaxed);
 }
 
 .login__button {
@@ -297,17 +340,25 @@ async function signIn(provider: 'google' | 'apple') {
   cursor: not-allowed;
 }
 
-.login__button--google {
-  color: var(--color-text-primary);
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(120, 90, 170, 0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.login__button--apple {
+.login__button--primary {
   color: white;
   background: #1e1a2a;
+}
+
+.login__link {
+  background: none;
+  border: none;
+  font-family: var(--font-body);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.login__link:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* --- Drift keyframes --- */

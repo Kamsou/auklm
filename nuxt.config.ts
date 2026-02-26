@@ -13,11 +13,9 @@ export default defineNuxtConfig({
       databaseUrl: '',
       authToken: '',
     },
+    resendApiKey: '',
     betterAuth: {
       secret: '',
-    },
-    public: {
-      googleClientId: process.env.GOOGLE_CLIENT_ID || '',
     },
   },
 
