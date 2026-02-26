@@ -16,6 +16,9 @@ export default defineNuxtConfig({
     betterAuth: {
       secret: '',
     },
+    public: {
+      googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+    },
   },
 
   app: {

@@ -7,9 +7,28 @@ definePageMeta({
 
 const loading = ref('')
 const { show } = useToast()
+const config = useRuntimeConfig()
+const isStandalone = ref(false)
+
+onMounted(() => {
+  isStandalone.value = window.matchMedia('(display-mode: standalone)').matches
+    || 'standalone' in window.navigator
+
+  if (isStandalone.value) {
+    const script = document.createElement('script')
+    script.src = 'https://accounts.google.com/gsi/client'
+    document.head.appendChild(script)
+  }
+})
 
 async function signIn(provider: 'google' | 'apple') {
   loading.value = provider
+
+  if (provider === 'google' && isStandalone.value && window.google?.accounts) {
+    signInGooglePWA()
+    return
+  }
+
   const { error } = await authClient.signIn.social({
     provider,
     callbackURL: '/',
@@ -18,6 +37,31 @@ async function signIn(provider: 'google' | 'apple') {
     show('Connexion impossible, reessayez plus tard.')
     loading.value = ''
   }
+}
+
+function signInGooglePWA() {
+  window.google!.accounts.id.initialize({
+    client_id: config.public.googleClientId,
+    callback: async (response) => {
+      const { error } = await authClient.signIn.social({
+        provider: 'google',
+        idToken: { token: response.credential },
+      })
+      if (error) {
+        show('Connexion impossible, reessayez plus tard.')
+        loading.value = ''
+        return
+      }
+      navigateTo('/')
+    },
+  })
+
+  window.google!.accounts.id.prompt((notification) => {
+    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+      show('Ouvre l\'app dans Safari pour te connecter avec Google.')
+      loading.value = ''
+    }
+  })
 }
 </script>
 
