@@ -282,7 +282,7 @@ async function verifyOtp() {
   width: 100%;
   padding: var(--space-4);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: 1rem;
   color: var(--color-text-primary);
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(120, 90, 170, 0.18);
@@ -321,7 +321,7 @@ async function verifyOtp() {
   gap: var(--space-3);
   padding: var(--space-4);
   font-family: var(--font-body);
-  font-size: var(--text-sm);
+  font-size: 1rem;
   font-weight: var(--weight-semi);
   border: none;
   border-radius: var(--radius-md);
