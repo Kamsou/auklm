@@ -32,7 +32,7 @@ async function checkPendingBridge() {
   if (!bridgeId) return
 
   try {
-    await $fetch(`/api/auth/bridge/${bridgeId}/claim`, { method: 'POST' })
+    await $fetch(`/api/bridge/${bridgeId}/claim`, { method: 'POST' })
     localStorage.removeItem('bridge_id')
     navigateTo('/')
   } catch {
@@ -44,7 +44,7 @@ async function signIn(provider: 'google' | 'apple') {
   loading.value = provider
 
   if (isStandalone.value) {
-    const { id } = await $fetch('/api/auth/bridge', { method: 'POST' })
+    const { id } = await $fetch('/api/bridge', { method: 'POST' })
     localStorage.setItem('bridge_id', id)
     await authClient.signIn.social({
       provider,

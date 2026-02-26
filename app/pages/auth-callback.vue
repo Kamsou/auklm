@@ -8,7 +8,7 @@ const done = ref(false)
 onMounted(async () => {
   if (bridgeId) {
     try {
-      await $fetch(`/api/auth/bridge/${bridgeId}/complete`, { method: 'POST' })
+      await $fetch(`/api/bridge/${bridgeId}/complete`, { method: 'POST' })
       done.value = true
     } catch {
       done.value = false
