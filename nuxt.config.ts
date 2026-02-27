@@ -2,6 +2,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   modules: [
+    '@nuxtjs/tailwindcss',
     '@vite-pwa/nuxt',
     '@nuxtjs/google-fonts',
   ],

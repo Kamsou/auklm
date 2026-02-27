@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-const showTabBar = computed(() => route.path === '/' || route.path === '/account')
+const showTabBar = computed(() => route.path === '/' || route.path === '/history' || route.path === '/account')
 </script>
 
 <template>
@@ -13,10 +13,8 @@ const showTabBar = computed(() => route.path === '/' || route.path === '/account
     </div>
 
     <div class="desktop-block__center">
-      <div class="desktop-block__brand">
-        <h1 class="desktop-block__title">auklm</h1>
-        <img src="/drop.svg" width="32" height="32" alt="" class="desktop-block__icon" />
-      </div>
+      <img src="/pwa-icon.svg" width="72" height="72" alt="" class="desktop-block__icon" style="border-radius: 16px;" />
+      <h1 class="desktop-block__title">auklm</h1>
       <p class="desktop-block__sub">suivi de cycle</p>
       <p class="desktop-block__about">
         Suis ton cycle menstruel, enregistre tes dates<br>et obtiens des estimations personnalisees.
@@ -38,10 +36,17 @@ const showTabBar = computed(() => route.path === '/' || route.path === '/account
       <NuxtLink to="/" class="tab-bar__item" :class="{ 'tab-bar__item--active': route.path === '/' }">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" class="tab-bar__icon">
           <circle cx="11" cy="11" r="9" fill="currentColor" class="tab-bar__fill" />
+          <path d="M11 4L3.5 10V18.5H8.5V13.5H13.5V18.5H18.5V10L11 4Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span class="tab-bar__label">Accueil</span>
+      </NuxtLink>
+      <NuxtLink to="/history" class="tab-bar__item" :class="{ 'tab-bar__item--active': route.path === '/history' }">
+        <svg width="22" height="22" viewBox="0 0 22 22" fill="none" class="tab-bar__icon">
+          <circle cx="11" cy="11" r="9" fill="currentColor" class="tab-bar__fill" />
           <circle cx="11" cy="11" r="8.5" stroke="currentColor" stroke-width="1.4"/>
           <path d="M11 6.5V11L14 13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <span class="tab-bar__label">Cycle</span>
+        <span class="tab-bar__label">Historique</span>
       </NuxtLink>
       <NuxtLink to="/account" class="tab-bar__item" :class="{ 'tab-bar__item--active': route.path === '/account' }">
         <svg width="22" height="22" viewBox="0 0 22 22" fill="none" class="tab-bar__icon">

@@ -1,3 +1,8 @@
+function shouldOnboard(): boolean {
+  if (!import.meta.client) return false
+  return localStorage.getItem('auklm-onboarding-done') !== '1'
+}
+
 export default defineNuxtRouteMiddleware(async (to) => {
   if (to.path.startsWith('/api/auth')) {
     return
@@ -6,7 +11,13 @@ export default defineNuxtRouteMiddleware(async (to) => {
   const sessionUser = useState<{ id: string; email: string } | null>('auth-user', () => null)
 
   if (import.meta.client && sessionUser.value) {
-    return to.path === '/login' ? navigateTo('/') : undefined
+    if (to.path === '/login') {
+      return navigateTo(shouldOnboard() ? '/onboarding' : '/')
+    }
+    if (to.path === '/' && shouldOnboard()) {
+      return navigateTo('/onboarding')
+    }
+    return
   }
 
   const session = await $fetch<{ user?: { id: string; email: string } } | null>('/api/auth/get-session', {

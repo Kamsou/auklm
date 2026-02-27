@@ -10,8 +10,12 @@
     </linearGradient>
   </defs>
   <rect width="512" height="512" fill="url(#bg)"/>
-  <g transform="translate(256, 260) rotate(-8) translate(-256, -260)">
-    <path d="M256 108C256 108 158 242 158 310a98 98 0 1 0 196 0C354 242 256 108 256 108Z" fill="url(#drop)"/>
-    <ellipse cx="220" cy="250" rx="28" ry="40" fill="white" opacity="0.18" transform="rotate(-15, 220, 250)"/>
-  </g>
+  <path d="M256 30C256 30 62 250 62 376a194 194 0 1 0 388 0C450 250 256 30 256 30Z" fill="url(#drop)"/>
+  <circle cx="200" cy="340" r="46" fill="white"/>
+  <circle cx="312" cy="340" r="46" fill="white"/>
+  <circle cx="206" cy="346" r="23" fill="#1e1a2a"/>
+  <circle cx="318" cy="346" r="23" fill="#1e1a2a"/>
+  <circle cx="196" cy="334" r="10" fill="white"/>
+  <circle cx="308" cy="334" r="10" fill="white"/>
+  <path d="M224 420 Q256 452 288 420" stroke="#1e1a2a" stroke-width="12" stroke-linecap="round" fill="none"/>
 </svg>

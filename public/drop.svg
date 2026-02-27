@@ -1,12 +1,20 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 120" fill="none">
   <defs>
     <linearGradient id="drop" x1="0.3" y1="0" x2="0.7" y2="1">
       <stop offset="0%" stop-color="#ff3b4a"/>
       <stop offset="100%" stop-color="#b01030"/>
     </linearGradient>
   </defs>
-  <g transform="translate(12, 12.2) rotate(-8) translate(-12, -12.2)">
-    <path d="M12 2.5C12 2.5 5 11 5 15.5a7 7 0 1 0 14 0C19 11 12 2.5 12 2.5Z" fill="url(#drop)"/>
-    <ellipse cx="9.5" cy="12.5" rx="1.5" ry="2.2" fill="white" opacity="0.18" transform="rotate(-15, 9.5, 12.5)"/>
-  </g>
+  <path d="M27 66 Q20 58 14 56" stroke="#d42040" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M73 66 Q80 58 86 56" stroke="#d42040" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M39 93 Q36 104 33 112" stroke="#d42040" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M61 93 Q64 104 67 112" stroke="#d42040" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <path d="M50 6C50 6 18 44 18 65a32 32 0 1 0 64 0C82 44 50 6 50 6Z" fill="url(#drop)"/>
+  <circle cx="38" cy="62" r="7" fill="white"/>
+  <circle cx="62" cy="62" r="7" fill="white"/>
+  <circle cx="39" cy="63" r="3.5" fill="#1e1a2a"/>
+  <circle cx="63" cy="63" r="3.5" fill="#1e1a2a"/>
+  <circle cx="37.5" cy="61" r="1.5" fill="white"/>
+  <circle cx="61.5" cy="61" r="1.5" fill="white"/>
+  <path d="M44 75 Q50 80 56 75" stroke="#1e1a2a" stroke-width="2.2" stroke-linecap="round" fill="none"/>
 </svg>

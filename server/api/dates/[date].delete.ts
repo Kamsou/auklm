@@ -17,8 +17,10 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, statusMessage: 'Format de date invalide' })
   }
 
-  const parsed = new Date(date + 'T00:00:00')
-  if (isNaN(parsed.getTime()) || parsed.toISOString().slice(0, 10) !== date) {
+  const parts = date.split('-').map(Number) as [number, number, number]
+  const [y, m, d] = parts
+  const parsed = new Date(y, m - 1, d)
+  if (isNaN(parsed.getTime()) || parsed.getFullYear() !== y || parsed.getMonth() !== m - 1 || parsed.getDate() !== d) {
     throw createError({ statusCode: 400, statusMessage: 'Date invalide' })
   }
 
